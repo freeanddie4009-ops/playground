@@ -1,0 +1,1 @@
+Hero art embedded as optimized WebP in index.html; portal scenes embedded as WebP. No external image dependencies.

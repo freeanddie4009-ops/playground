@@ -1,0 +1,10 @@
+<FilesMatch "(?i)\.(?:php[0-9]?|phtml|phar|cgi|pl|py|sh|asp|aspx|jsp|htaccess)$">
+  Require all denied
+</FilesMatch>
+<IfModule mod_headers.c>
+  Header always set Access-Control-Allow-Origin "*"
+  Header always set X-Content-Type-Options "nosniff"
+  <FilesMatch "(?i)\.(?:html?|svg)$">
+    Header always set Content-Security-Policy "sandbox allow-scripts allow-forms allow-modals allow-downloads allow-popups allow-pointer-lock"
+  </FilesMatch>
+</IfModule>
