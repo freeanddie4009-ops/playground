@@ -1,6 +1,6 @@
 <?php
-// config.php로 복사한 뒤 install_key를 새 값으로 채워 서버에만 업로드하세요. (GitHub에 올리지 마세요)
+// config.php로 복사해 서버에 업로드하세요. admin_password가 교사 로그인 비밀번호입니다.
 return [
-    'install_key' => '여기에_설치키_입력',
+    'admin_password' => '2026',
     'max_upload_bytes' => 80 * 1024 * 1024,
 ];

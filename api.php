@@ -56,7 +56,7 @@ function publicDb(array $db, bool $admin) : array {
     return array('apps'=>array_values(array_filter($db['apps'],function($x){return ($x['status']??'draft')==='published';})),
         'materials'=>array_values(array_filter($db['materials'],function($x){return ($x['status']??'draft')==='published';})));
 }
-function setupDone(): bool { return is_file(authPath()); }
+function setupDone(): bool { return true; }
 function postFile(string $key) : ?array {
     if (!isset($_FILES[$key]) || !is_array($_FILES[$key])) return null;
     $f=$_FILES[$key];
@@ -148,12 +148,12 @@ try {
         respond(array('ok'=>true,'admin'=>true,'configured'=>true,'csrf'=>$_SESSION['csrf']));
     }
     if($action==='login'){
-        guard(setupDone(),'관리자 비밀번호를 먼저 설정해 주세요.',400);
-        $record=json_decode((string)file_get_contents(authPath()),true);
         $pw=str($_POST['password']??'',500);
+        $expected=(string)($config['admin_password']??'');
+        guard($expected!=='','config.php에 admin_password가 설정되지 않았습니다.',500);
         $attempt=(int)($_SESSION['failed_logins']??0);
         if($attempt>=8 && time()-((int)($_SESSION['last_failed']??0))<300)fail('로그인 시도가 많습니다. 5분 후 다시 시도해 주세요.',429);
-        if(!password_verify($pw,(string)($record['password_hash']??''))){$_SESSION['failed_logins']=$attempt+1;$_SESSION['last_failed']=time();fail('비밀번호가 일치하지 않습니다.',403);}
+        if(!hash_equals($expected,$pw)){$_SESSION['failed_logins']=$attempt+1;$_SESSION['last_failed']=time();fail('비밀번호가 일치하지 않습니다.',403);}
         $_SESSION['failed_logins']=0;session_regenerate_id(true);$_SESSION['lara_admin']=true;$_SESSION['csrf']=bin2hex(random_bytes(24));
         respond(array('ok'=>true,'admin'=>true,'csrf'=>$_SESSION['csrf']));
     }
