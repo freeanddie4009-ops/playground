@@ -1,8 +1,3 @@
-# 설치키 비밀 파일 — 절대 커밋 금지
-INSTALL_KEY_*.txt
-config.php
-# 서버 런타임 데이터
-uploads/*
-!uploads/.htaccess
-storage/*
-!storage/.htaccess
+node_modules
+.vercel
+.env*

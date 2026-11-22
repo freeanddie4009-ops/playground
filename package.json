@@ -1,0 +1,10 @@
+{
+  "name": "lara-ai-playground",
+  "private": true,
+  "type": "module",
+  "description": "2026 Lara AI 플레이그라운드 - 배곧라라초 교육용 웹앱 모음 홈페이지 (Vercel)",
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "@vercel/blob": "2.9.0"
+  }
+}
