@@ -94,15 +94,17 @@ body.admin .teacher-link { background: #7C55D6; border-color: #7C55D6; color: #f
 .search { position: relative; flex: 0 1 380px; min-width: 220px; }
 .search input { width: 100%; padding: 11px 14px 11px 40px; border: 1px solid #CAD5E8; border-radius: 999px; min-height: 44px; }
 .search .ico { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); }
-.app-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
-.app-card { border: 1px solid var(--border); border-radius: 24px; background: #fff; box-shadow: 0 7px 17px rgba(30,50,94,.07); padding: 22px 22px 24px; display: flex; flex-direction: column; align-items: center; text-align: center; transition: transform .18s ease, box-shadow .18s ease; }
+.app-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 340px)); justify-content: center; gap: 28px; }
+.app-card { border: 1px solid var(--border); border-radius: 24px; background: #fff; box-shadow: 0 7px 17px rgba(30,50,94,.07); padding: 24px 22px 28px; min-height: 450px; display: flex; flex-direction: column; align-items: center; text-align: center; transition: transform .18s ease, box-shadow .18s ease; }
 .app-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
-.thumb { width: 100%; height: 150px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+.thumb { width: 100%; height: 150px; display: flex; align-items: center; justify-content: center; margin-bottom: 18px; }
 .thumb img.photo { width: 100%; height: 100%; object-fit: cover; border-radius: 16px; }
+.thumb.has-photo { height: auto; }
+.thumb.has-photo img.photo { height: auto; object-fit: initial; }
 .thumb img.icon { width: 115px; height: 115px; }
-.app-card h2 { font-size: 22px; margin: 0 0 8px; }
+.app-card h2 { font-size: 22px; margin: 0 0 10px; }
 .app-card h2 a:hover { color: var(--c-ink); }
-.app-card p { color: var(--muted); margin: 0 0 18px; flex: 1; white-space: pre-line; }
+.app-card p { color: var(--muted); margin: 0 0 22px; flex: 1; white-space: pre-line; line-height: 1.7; }
 .card-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
 .primary { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 0; background: var(--c, #F04780); color: var(--c-on, #fff); font-weight: 900; padding: 12px 26px; border-radius: 12px; box-shadow: 0 4px 0 var(--c-deep, #C92C68); min-height: 46px; }
 .primary:hover { filter: brightness(1.05); }
@@ -223,7 +225,7 @@ body.admin .teacher-link { background: #7C55D6; border-color: #7C55D6; color: #f
   .hero { height: auto; background-size: 100% auto; background-position: center bottom; padding-bottom: clamp(120px, 26vw, 240px); }
   .hero-copy { padding: 44px 14px 0; }
   .button-deck { position: static; transform: none; width: min(720px, 94%); margin: 26px auto 0; }
-  .app-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .app-grid { grid-template-columns: repeat(2, minmax(0, 340px)); }
   .banner-text { padding-right: 170px; }
   .banner-art { height: 130px; }
   .detail-lower { grid-template-columns: 1fr; }
@@ -248,7 +250,7 @@ body.admin .teacher-link { background: #7C55D6; border-color: #7C55D6; color: #f
   .banner-text { padding-right: 0; }
   .banner-art { display: none; }
   .section-logo { display: block; }
-  .app-grid { grid-template-columns: 1fr; gap: 14px; }
+  .app-grid { grid-template-columns: minmax(0, 360px); gap: 16px; }
   .detail-main { grid-template-columns: 1fr; padding: 20px; }
   .form-grid { grid-template-columns: 1fr; }
   .side { max-width: none; flex-direction: row; overflow-x: auto; }
@@ -452,7 +454,7 @@ function openBtn(a) {
 /* ===== 02 영역별 목록 ===== */
 function cardHtml(a) {
   return '<article class="app-card">' +
-    '<a class="thumb" href="#app-' + a.id + '" tabindex="-1" aria-hidden="true">' + appImg(a) + "</a>" +
+    '<a class="thumb' + (a.thumb ? " has-photo" : "") + '" href="#app-' + a.id + '" tabindex="-1" aria-hidden="true">' + appImg(a) + "</a>" +
     '<h2><a href="#app-' + a.id + '">' + esc(a.name) + "</a></h2>" +
     "<p>" + esc(a.desc) + "</p>" +
     '<div class="card-actions">' +
@@ -587,8 +589,8 @@ function setupHtml() {
   if (!SETUP.redis) miss.push("데이터 저장소(Upstash Redis)");
   if (!SETUP.blob) miss.push("파일 저장소(Vercel Blob)");
   if (!miss.length) return "";
-  return '<p class="note">아직 Vercel에 연결되지 않은 것이 있어요. 안내서(README)를 보고 연결해 주세요.<ul class="setup-list">' +
-    miss.map(function (m) { return "<li>" + esc(m) + "</li>"; }).join("") + "</ul></p>";
+  return '<div class="note">아직 Vercel에 연결되지 않은 것이 있어요. 안내서(README)를 보고 연결해 주세요.<ul class="setup-list">' +
+    miss.map(function (m) { return "<li>" + esc(m) + "</li>"; }).join("") + "</ul></div>";
 }
 function delBtn(kind, id) {
   var confirm = ui.pendingDel === id;
